@@ -49,24 +49,43 @@ test("reads all notes", () => {
 
 test("update note", () => {
   render(<StickyNotes />);
-  const noteTitles = screen.getAllByTestId('title');
-  const noteContents = screen.getAllByTestId('content');
-  const noteLabels = screen.getAllByTestId('label');
+  const noteTitles:HTMLInputElement[] = screen.getAllByTestId('title') as HTMLInputElement[];
+  const noteContents:HTMLInputElement[] = screen.getAllByTestId('content') as HTMLInputElement[];
+  const noteLabels:HTMLInputElement[] = screen.getAllByTestId('label') as HTMLInputElement[];
   for (let i = 0; i < 6; i++) {
-    fireEvent.change(noteTitles[i], { target: { value: "New Title" } });
-    fireEvent.change(noteContents[i], { target: { value: "New Content" } });
-    fireEvent.change(noteLabels[i], { target: { value: "New Label" } });
-    expect(noteTitles[i]).toBe("New Title");
-    expect(noteContents[i]).toBe("New Content");
-    expect(noteLabels[i]).toBe("New Label");
+    fireEvent.input(noteTitles[i], { target: { textContent: "New Title" } });
+    fireEvent.blur(noteTitles[i]);
+    fireEvent.input(noteContents[i], { target: { textContent: "New Content" } });
+    fireEvent.blur(noteContents[i]);
+    fireEvent.input(noteLabels[i], { target: { textContent: "New Label" } });
+    fireEvent.blur(noteLabels[i]);
+    expect(noteTitles[i].textContent).toBe("New Title");
+    expect(noteContents[i].textContent).toBe("New Content");
+    expect(noteLabels[i].textContent).toBe("New Label");
   }
 })
 
-test("delete note", () => {
+test("delete one note", () => {
   render(<StickyNotes />);
-  const deleteButton = screen.getByText("x");
-  fireEvent.click(deleteButton);
-  expect(deleteButton).not.toBeInTheDocument();
+  const deleteButton = screen.getAllByText("x");
+  for (let i = 0; i < 1; i++) {
+    fireEvent.click(deleteButton[i]);
+    expect(deleteButton[i]).not.toBeInTheDocument();
+  }
+  
+  const numNotes = screen.getAllByText("x");
+  expect(numNotes.length).toEqual(5);
+})
+
+
+test("edgecase: delete all notes", () => {
+  render(<StickyNotes />);
+  const deleteButton = screen.getAllByText("x");
+  for (let i = 0; i < deleteButton.length; i++) {
+    fireEvent.click(deleteButton[i]);
+    expect(deleteButton[i]).not.toBeInTheDocument();
+  }
+  
   const numNotes = screen.queryByText("x");
-  expect(numNotes).toHaveLength(5);
+  expect(numNotes).toEqual(null);
 })

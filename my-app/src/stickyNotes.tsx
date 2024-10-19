@@ -13,6 +13,16 @@ export const StickyNotes = () => {
         setLikedListApp(notes.filter((item) => item.like));
     }
 
+    const handleNoteChange = (event: React.FormEvent<HTMLDivElement>, noteId: number, field: string) => {
+        const updatedNotes = notes.map((note) => {
+            if (note.id === noteId) {
+                // Dynamically update the field being edited
+                return { ...note, [field]: event.currentTarget.textContent || "" };
+            }
+            return note;
+        });
+        setNotes(updatedNotes);
+    };
     const [notes, setNotes] = useState(dummyNotesList);
     const initialNote = {
         id: -1,
@@ -100,9 +110,9 @@ export const StickyNotes = () => {
                             <ToggleLike note={note} toggleLikedListApp={toggleLikedListApp} />
                             <ToggleDelete setNotes={setNotes} notes={notes} note={note} toggleLikedListApp={toggleLikedListApp} />
                         </div>
-                        <h2 contentEditable="true" data-testid="title">  {note.title} </h2>
-                        <p contentEditable="true" data-testid="content"> {note.content} </p>
-                        <p contentEditable="true" data-testid="label"> {note.label} </p>
+                        <h2 data-testid="title" contentEditable suppressContentEditableWarning={true} onBlur={(event) => handleNoteChange(event, note.id, "title")}>  {note.title} </h2>
+                        <p data-testid="content" contentEditable suppressContentEditableWarning={true} onBlur={(event) => handleNoteChange(event, note.id, "content")}> {note.content} </p>
+                        <p data-testid="label" contentEditable suppressContentEditableWarning={true} onBlur={(event) => handleNoteChange(event, note.id, "label")}> {note.label} </p>
                     </div>
                 ))}
             </div>

@@ -35,7 +35,7 @@ export function ToDoList() {
 
         const diff = checkbox.checked ? 1 : -1;
 
-        setNumRemainingItems(numRemainingItems + diff);
+        setNumRemainingItems(newItems.filter(item => item.isPurchased).length);
     }
 
     return (
@@ -45,7 +45,7 @@ export function ToDoList() {
                 <h1>{name}'s To Do List</h1>
 
 
-                Items bought: {numRemainingItems}
+                <p>Items bought: {numRemainingItems}</p>
                 <form action=".">
                     {items.map((item) => ListItem(item, handleCheckboxClick))}
                 </form>
