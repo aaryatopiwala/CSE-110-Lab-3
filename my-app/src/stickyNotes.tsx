@@ -95,6 +95,7 @@ export const StickyNotes = () => {
                             color: theme.foreground,
                             padding: "20px",
                         }}
+                        data-testid={note.id}
                     >
                         <div className="notes-header">
                             <ToggleLike note={note} toggleLikedListApp={toggleLikedListApp} />

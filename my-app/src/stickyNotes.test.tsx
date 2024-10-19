@@ -1,5 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { StickyNotes } from "./stickyNotes";
+import { dummyNotesList } from "./constant";
 
 describe("Create StickyNote", () => {
  test("renders create note form", () => {
@@ -31,3 +32,31 @@ describe("Create StickyNote", () => {
    expect(newNoteContent).toBeInTheDocument();
  });
 });
+
+test("reads all notes", () => {
+  render(<StickyNotes />);
+  for (let i = 1; i <= 6; i++) {
+    const dummyNoteTitle = screen.getByText(
+      "test note " + i.toString() +  " title"
+    );
+    const dummyNoteContent = screen.getByText(
+      "test note " + i.toString() + " content"
+    );
+    expect(dummyNoteTitle).toBeInTheDocument();
+    expect(dummyNoteContent).toBeInTheDocument();
+  }
+})
+
+test("update note", () => {
+  render(<StickyNotes />);
+
+})
+
+test("delete note", () => {
+  render(<StickyNotes />);
+  const deleteButton = screen.getByText("x");
+  fireEvent.click(deleteButton);
+  expect(deleteButton).not.toBeInTheDocument();
+  const numNotes = screen.queryByText("x");
+  expect(numNotes).toHaveLength(5);
+})
