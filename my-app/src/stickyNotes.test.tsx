@@ -49,7 +49,17 @@ test("reads all notes", () => {
 
 test("update note", () => {
   render(<StickyNotes />);
-
+  const noteTitles = screen.getAllByTestId('title');
+  const noteContents = screen.getAllByTestId('content');
+  const noteLabels = screen.getAllByTestId('label');
+  for (let i = 0; i < 6; i++) {
+    fireEvent.change(noteTitles[i], { target: { value: "New Title" } });
+    fireEvent.change(noteContents[i], { target: { value: "New Content" } });
+    fireEvent.change(noteLabels[i], { target: { value: "New Label" } });
+    expect(noteTitles[i]).toBe("New Title");
+    expect(noteContents[i]).toBe("New Content");
+    expect(noteLabels[i]).toBe("New Label");
+  }
 })
 
 test("delete note", () => {

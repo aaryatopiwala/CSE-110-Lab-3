@@ -95,15 +95,14 @@ export const StickyNotes = () => {
                             color: theme.foreground,
                             padding: "20px",
                         }}
-                        data-testid={note.id}
                     >
                         <div className="notes-header">
                             <ToggleLike note={note} toggleLikedListApp={toggleLikedListApp} />
                             <ToggleDelete setNotes={setNotes} notes={notes} note={note} toggleLikedListApp={toggleLikedListApp} />
                         </div>
-                        <h2 contentEditable="true">  {note.title} </h2>
-                        <p contentEditable="true"> {note.content} </p>
-                        <p contentEditable="true" > {note.label} </p>
+                        <h2 contentEditable="true" data-testid="title">  {note.title} </h2>
+                        <p contentEditable="true" data-testid="content"> {note.content} </p>
+                        <p contentEditable="true" data-testid="label"> {note.label} </p>
                     </div>
                 ))}
             </div>
