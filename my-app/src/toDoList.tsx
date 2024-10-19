@@ -35,7 +35,9 @@ export function ToDoList() {
 
         const diff = checkbox.checked ? 1 : -1;
 
-        setNumRemainingItems(newItems.filter(item => item.isPurchased).length);
+        //setNumRemainingItems(newItems.filter(item => item.isPurchased).length);
+        setNumRemainingItems(numRemainingItems+diff);
+
     }
 
     return (
